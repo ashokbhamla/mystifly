@@ -13,7 +13,11 @@ class BookFlight extends MystiflyWSDL
     public $SessionId;
     public $FareSourceCode;
     public $TravelerInfo;
-    
+
+    /**
+     * BookFlight constructor.
+     * @param $data
+     */
     public function __construct($data)
     {
         parent::__construct();
@@ -22,7 +26,9 @@ class BookFlight extends MystiflyWSDL
         $this->buildTravelerInfo($data);
     }
 
-
+    /**
+     * Build traveler info
+     */
     /**
      * @param $data
      */
@@ -65,9 +71,45 @@ class BookFlight extends MystiflyWSDL
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getResult()
     {
-        return $this->getSoapClient()->BookFlight(['rq'=>$this]);
+        $this->response = $this->getSoapClient()->BookFlight(['rq' => $this]);
+        return $this->response;
+    }
+
+    public function isSuccess()
+    {
+        if (!$this->response) {
+            throw new \Exception('no result');
+        }
+        return $this->response->BookFlightResult->Success;
+    }
+
+    public function getStatus()
+    {
+        if (!$this->response) {
+            throw new \Exception('no result');
+        }
+        return $this->response->BookFlightResult->Status;
+    }
+
+    public function getTktTimeLimit()
+    {
+        if (!$this->response) {
+            throw new \Exception('no result');
+        }
+        return $this->response->BookFlightResult->TktTimeLimit;
+    }
+
+    public function getUniqueID()
+    {
+        if (!$this->response) {
+            throw new \Exception('no result');
+        }
+        return $this->response->BookFlightResult->UniqueID;
     }
 
 }

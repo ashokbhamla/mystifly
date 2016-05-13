@@ -40,13 +40,24 @@ class AirTraveler
 }
 
 class PassengerName{
+
+
+
     public $PassengerTitle;
     public $PassengerFirstName;
     public $PassengerLastName;
 
+    protected $availableTitle = [
+        'MR',
+        'MRS',
+        'MISS',
+        'INF',
+        'LADY'
+    ];
+
     public function __construct($title, $firstname, $lastname)
     {
-        $this->PassengerTitle = $title;
+        $this->PassengerTitle = in_array($title, $this->availableTitle) ? $title : 'MR';
         $this->PassengerFirstName = $firstname;
         $this->PassengerLastName = $lastname;
     }

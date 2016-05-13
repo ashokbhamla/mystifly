@@ -110,8 +110,6 @@ $bookingData = [
 ];
 
 $bookFlight = new Mystifly\BookFlight\BookFlight($bookingData);
-
-
 try {
     $bookResult = $bookFlight->getResult();
 }catch (Exception $e){
@@ -119,6 +117,10 @@ try {
     file_put_contents(__DIR__ . '/data/book-flight.xml', $bookFlightRq);
     print $e->getMessage();
 }
+
+$tktTimeLimit = $bookFlight->getTktTimeLimit();
+$status = $bookFlight->getStatus();
+$uniqueId = $bookFlight->getUniqueID();
 
 
 $v = 1;
