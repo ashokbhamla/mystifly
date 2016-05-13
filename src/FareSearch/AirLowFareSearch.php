@@ -44,7 +44,9 @@ class AirLowFareSearch extends MystiflyWSDL
         if($this->response->AirLowFareSearchResult->Success != true)
             throw new \Exception('Request Failed please try again');
 
-       // if($this->response->AirLowFareSearchResult->Errors)
+        if(isset($this->response->AirLowFareSearchResult->Errors->Error)){
+            throw new \Exception($this->response->AirLowFareSearchResult->Errors->Error->Message);
+        }
         $listFlight  = $this->response->AirLowFareSearchResult->PricedItineraries->PricedItinerary;
         return $listFlight;
     }

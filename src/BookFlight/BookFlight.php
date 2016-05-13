@@ -6,7 +6,9 @@
 namespace Mystifly\BookFlight;
 
 
-class BookFlight
+use Mystifly\MystiflyWSDL;
+
+class BookFlight extends MystiflyWSDL
 {
     public $SessionId;
     public $FareSourceCode;
@@ -14,6 +16,7 @@ class BookFlight
     
     public function __construct($data)
     {
+        parent::__construct();
         $this->SessionId = $data['sessionId'];
         $this->FareSourceCode = $data['fareSourceCode'];
         $this->buildTravelerInfo($data);
@@ -60,6 +63,11 @@ class BookFlight
         */
         $this->TravelerInfo = new TravelerInfo($data['TravelerInfo']);
         return $this;
+    }
+
+    public function getResult()
+    {
+        return $this->getSoapClient()->BookFlight(['rq'=>$this]);
     }
 
 }

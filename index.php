@@ -20,9 +20,9 @@ $data = [
     'sessionId' => $sessionId,
     'routes' => [
         [
-            'OriginLocationCode' => 'ATL',
-            'DestinationLocationCode' => 'ORD',
-            'DepartureDateTime' => '2016-06-06',
+            'OriginLocationCode' => 'ORY',
+            'DestinationLocationCode' => 'BER',
+            'DepartureDateTime' => '2016-07-08',
         ]
     ],
     'passengers' => [
@@ -39,7 +39,6 @@ $data = [
     'isRefundable' => false,
 ];
 
-
 $fareSearch = new Mystifly\FareSearch\AirLowFareSearch();
 $fareSearch->setOriginDestinationInformations($data['routes']);
 $fareSearch->setPassengers($data['passengers']);
@@ -49,8 +48,10 @@ $fareSearch->setSessionId($data['sessionId']);
 try {
     $flightResult = $fareSearch->getResult();
 } catch (Exception $e) {
+    /*
     $request = $fareSearch->getRequest();
     file_put_contents(__DIR__ . '/data/req.xml', $request);
+    */
     print($e->getMessage());
 }
 
@@ -71,8 +72,11 @@ $validatedFlight = $revalidate->getResult();
  * Rules
  */
 $airRules = new \Mystifly\FareSearch\AirRule($sessionId, $fareSourceCode);
+$ruleResult = $airRules->getResult();
 
-
+/**
+ * Book Flight
+ */
 $bookingData = [
 
     'sessionId' => $sessionId,
@@ -105,7 +109,18 @@ $bookingData = [
     ]
 ];
 
-$travelerInfo = new Mystifly\BookFlight\BookFlight($bookingData);
+$bookFlight = new Mystifly\BookFlight\BookFlight($bookingData);
+
+
+try {
+    $bookResult = $bookFlight->getResult();
+}catch (Exception $e){
+    $bookFlightRq = $bookFlight->getRequest();
+    file_put_contents(__DIR__ . '/data/book-flight.xml', $bookFlightRq);
+    print $e->getMessage();
+}
+
+
 $v = 1;
 
 

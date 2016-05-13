@@ -9,6 +9,8 @@ namespace Mystifly;
 abstract class MystiflyWSDL extends  \stdClass implements \ArrayAccess,\Iterator,\Countable
 {
 
+    const RQ = 'rq';
+    
     protected $soapClient;
 
     protected $config;
